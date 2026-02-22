@@ -14,52 +14,53 @@
     }
     h1 { color: #ff9800; text-shadow: 0 0 10px #ff9800; margin-bottom: 30px;}
     
-    /* 石板容器設定 */
     .stone-container { 
       display: flex; 
       flex-wrap: wrap; 
       justify-content: center; 
-      gap: 30px; /* 增加石板間距 */
+      gap: 40px; /* 稍微拉開石板之間的距離 */
       margin-top: 20px; 
     }
 
-    /* --- 核心修改區域：石板樣式 --- */
+    /* --- 石板全新霸氣樣式 --- */
     .stone {
-      /* 設定背景圖片 */
+      /* 讀取你去背好的圖片 */
       background-image: url('stone.png'); 
       background-size: 100% 100%;
       background-repeat: no-repeat;
       background-position: center;
-      
-      /* 1. 移除不必要的方形光暈與背景色 */
       background-color: transparent;
+      
+      /* 徹底移除舊有的框線與人工光暈 */
       box-shadow: none; 
       border: none;
       
-      /* 2. 調整石板大小 */
-      width: 320px;  
-      min-height: 200px; 
-      box-sizing: border-box; /* 確保內縮不會撐破圖片比例 */
+      /* 放大尺寸與手機適應設定 */
+      width: 450px;  
+      min-height: 280px; 
+      max-width: 90vw; /* 神奇魔法：確保在手機上寬度最多只佔螢幕 90%，不會破版 */
+      box-sizing: border-box; 
       
-      /* 3. 調整文字內縮 (上、右、下、左)，把文字推到石頭中央 */
-      padding: 45px 45px 35px 45px; 
+      /* 調整文字內縮，讓字好好待在石頭中央 (上 右 下 左) */
+      padding: 60px 50px 50px 50px; 
       
       text-align: left;
-      /* 加強文字陰影，讓字在石頭上更有刻上去的立體感 */
+      /* 文字立體陰影，讓字有刻在石頭上的感覺 */
       text-shadow: 1px 1px 3px #000000, -1px -1px 2px rgba(0,0,0,0.5);
     }
-    /* --------------------------- */
 
     .creator { 
       font-weight: bold; 
-      color: #ffd54f; /* 稍微亮一點的黃色 */
-      margin-bottom: 15px; 
-      font-size: 1.1em;
-      border-bottom: 1px dashed rgba(255, 255, 255, 0.3);
-      padding-bottom: 10px;
+      color: #ffd54f; /* 亮黃色 */
+      margin-bottom: 10px; 
+      font-size: 1.3em; /* 放大發起人字體 */
+      /* 徹底消滅多餘的白色虛線 */
+      border-bottom: none;
+      padding-bottom: 0;
     }
+
     .message { 
-      font-size: 1.15em; 
+      font-size: 1.25em; /* 放大約定內容字體 */
       line-height: 1.6; 
       color: #ffffff;
       white-space: pre-wrap;
@@ -79,46 +80,4 @@
     // 這是你專屬的 Firebase 資料庫網址
     const dbUrl = "https://time-capsule-project-58d37-default-rtdb.europe-west1.firebasedatabase.app/capsules.json";
 
-    // 去資料庫抓資料
-    fetch(dbUrl)
-      .then(response => response.json())
-      .then(data => {
-        const wall = document.getElementById('wall');
-        wall.innerHTML = ''; // 清空「載入中」的文字
-
-        if(!data) {
-          wall.innerHTML = '<p>目前還沒有任何石板喔！趕快去建立第一塊吧！</p>';
-          return;
-        }
-
-        // 把資料庫裡的每一塊石板抓出來，變成網頁畫面
-        // 使用 reverse() 讓最新的石板排在最前面
-        const capsulesArray = Object.values(data).reverse();
-
-        capsulesArray.forEach(stoneData => {
-          // 如果這筆資料沒有內容，就跳過
-          if(!stoneData || (!stoneData.creator && !stoneData.message)) return;
-
-          const stoneDiv = document.createElement('div');
-          stoneDiv.className = 'stone';
-          
-          // 填入發起人與約定內容
-          const creatorName = stoneData.creator ? stoneData.creator : '無名氏長老';
-          const messageText = stoneData.message ? stoneData.message : '沒有留下隻字片語...';
-
-          stoneDiv.innerHTML = `
-            <div class="creator">🗿 發起人：${creatorName}</div>
-            <div class="message">${messageText}</div>
-          `;
-          
-          wall.appendChild(stoneDiv);
-        });
-      })
-      .catch(error => {
-        console.error("發生錯誤啦：", error);
-        document.getElementById('wall').innerHTML = '<p>讀取石板失敗，請確認資料庫連線！</p>';
-      });
-  </script>
-
-</body>
-</html>
+    // 去資料庫抓
