@@ -10,16 +10,41 @@
       color: #e0e0e0; 
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
       text-align: center; 
-      padding: 20px; 
+      padding: 20px 20px 60px 20px; /* 底部多留一點空間 */
     }
-    h1 { color: #ff9800; text-shadow: 0 0 10px #ff9800; margin-bottom: 30px;}
+    h1 { color: #ff9800; text-shadow: 0 0 10px #ff9800; margin-bottom: 10px;}
     
+    .description {
+      font-size: 1.1em;
+      margin-bottom: 25px;
+      color: #aaaaaa;
+    }
+
+    /* 🚀 全新的「我要刻石板」按鈕樣式 */
+    .carve-btn {
+      display: inline-block;
+      margin-bottom: 40px;
+      padding: 12px 30px;
+      background-color: #ff9800;
+      color: #1a1a1a;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.2em;
+      border-radius: 30px; /* 圓角按鈕 */
+      box-shadow: 0 4px 15px rgba(255, 152, 0, 0.4);
+      transition: all 0.3s ease; /* 滑鼠移過去的動畫效果 */
+    }
+    .carve-btn:hover {
+      background-color: #ffb74d;
+      transform: scale(1.05); /* 微微放大 */
+      box-shadow: 0 6px 20px rgba(255, 152, 0, 0.6);
+    }
+
     .stone-container { 
       display: flex; 
       flex-wrap: wrap; 
       justify-content: center; 
       gap: 40px; 
-      margin-top: 20px; 
     }
 
     .stone {
@@ -37,14 +62,12 @@
       max-width: 90vw; 
       box-sizing: border-box; 
       
-      /* 🟢 調整內縮：增加到 50px，讓文字更往視覺中心集中 */
       padding: 50px; 
       
-      /* 🚀 啟動彈性排版，確保垂直與水平都居中 */
       display: flex;
       flex-direction: column;
-      justify-content: center; /* 垂直置中 */
-      align-items: center;     /* 水平置中 */
+      justify-content: center; 
+      align-items: center;     
       
       text-shadow: 1px 1px 3px #000000, -1px -1px 2px rgba(0,0,0,0.5);
     }
@@ -64,14 +87,16 @@
       line-height: 1.6; 
       color: #ffffff;
       white-space: pre-wrap;
-      text-align: center; /* 確保多行文字也是置中的 */
+      text-align: center; 
     }
   </style>
 </head>
 <body>
 
   <h1>🔥 部落記憶石板牆 🔥</h1>
-  <p>這裡刻印著我們永不賴皮的約定，一旦刻上，一萬年都不會忘！</p>
+  <p class="description">這裡刻印著我們永不賴皮的約定，一旦刻上，一萬年都不會忘！</p>
+  
+  <a href="https://tally.so/r/A7d5Py" target="_blank" class="carve-btn">✍️ 我也要刻一塊石板</a>
   
   <div class="stone-container" id="wall">
     <p>用力挖掘石板中...</p>
@@ -102,7 +127,6 @@
           const creatorName = stoneData.creator ? stoneData.creator : '無名氏長老';
           const messageText = stoneData.message ? stoneData.message : '沒有留下隻字片語...';
 
-          // 🟢 這裡的 🗿 已經被我移除了
           stoneDiv.innerHTML = `
             <div class="creator">發起人：${creatorName}</div>
             <div class="message">${messageText}</div>
