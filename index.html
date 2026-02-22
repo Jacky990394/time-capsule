@@ -37,19 +37,26 @@
       max-width: 90vw; 
       box-sizing: border-box; 
       
-      padding: 60px 50px 50px 50px; 
+      /* 🟢 調整內縮：增加到 50px，讓文字更往視覺中心集中 */
+      padding: 50px; 
       
-      text-align: left;
+      /* 🚀 啟動彈性排版，確保垂直與水平都居中 */
+      display: flex;
+      flex-direction: column;
+      justify-content: center; /* 垂直置中 */
+      align-items: center;     /* 水平置中 */
+      
       text-shadow: 1px 1px 3px #000000, -1px -1px 2px rgba(0,0,0,0.5);
     }
 
     .creator { 
       font-weight: bold; 
       color: #ffd54f; 
-      margin-bottom: 10px; 
+      margin-bottom: 15px; 
       font-size: 1.3em; 
       border-bottom: none;
       padding-bottom: 0;
+      text-align: center;
     }
 
     .message { 
@@ -57,6 +64,7 @@
       line-height: 1.6; 
       color: #ffffff;
       white-space: pre-wrap;
+      text-align: center; /* 確保多行文字也是置中的 */
     }
   </style>
 </head>
@@ -94,8 +102,9 @@
           const creatorName = stoneData.creator ? stoneData.creator : '無名氏長老';
           const messageText = stoneData.message ? stoneData.message : '沒有留下隻字片語...';
 
+          // 🟢 這裡的 🗿 已經被我移除了
           stoneDiv.innerHTML = `
-            <div class="creator">🗿 發起人：${creatorName}</div>
+            <div class="creator">發起人：${creatorName}</div>
             <div class="message">${messageText}</div>
           `;
           
