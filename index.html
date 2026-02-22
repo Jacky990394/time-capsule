@@ -6,7 +6,7 @@
   <title>史前記憶石板牆</title>
   <style>
     body { 
-      background-color: #1a1a1a; /* 深邃的洞穴背景 */
+      background-color: #1a1a1a; 
       color: #e0e0e0; 
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
       text-align: center; 
@@ -18,49 +18,42 @@
       display: flex; 
       flex-wrap: wrap; 
       justify-content: center; 
-      gap: 40px; /* 稍微拉開石板之間的距離 */
+      gap: 40px; 
       margin-top: 20px; 
     }
 
-    /* --- 石板全新霸氣樣式 --- */
     .stone {
-      /* 讀取你去背好的圖片 */
       background-image: url('stone.png'); 
       background-size: 100% 100%;
       background-repeat: no-repeat;
       background-position: center;
       background-color: transparent;
       
-      /* 徹底移除舊有的框線與人工光暈 */
       box-shadow: none; 
       border: none;
       
-      /* 放大尺寸與手機適應設定 */
       width: 450px;  
       min-height: 280px; 
-      max-width: 90vw; /* 神奇魔法：確保在手機上寬度最多只佔螢幕 90%，不會破版 */
+      max-width: 90vw; 
       box-sizing: border-box; 
       
-      /* 調整文字內縮，讓字好好待在石頭中央 (上 右 下 左) */
       padding: 60px 50px 50px 50px; 
       
       text-align: left;
-      /* 文字立體陰影，讓字有刻在石頭上的感覺 */
       text-shadow: 1px 1px 3px #000000, -1px -1px 2px rgba(0,0,0,0.5);
     }
 
     .creator { 
       font-weight: bold; 
-      color: #ffd54f; /* 亮黃色 */
+      color: #ffd54f; 
       margin-bottom: 10px; 
-      font-size: 1.3em; /* 放大發起人字體 */
-      /* 徹底消滅多餘的白色虛線 */
+      font-size: 1.3em; 
       border-bottom: none;
       padding-bottom: 0;
     }
 
     .message { 
-      font-size: 1.25em; /* 放大約定內容字體 */
+      font-size: 1.25em; 
       line-height: 1.6; 
       color: #ffffff;
       white-space: pre-wrap;
@@ -77,7 +70,43 @@
   </div>
 
   <script>
-    // 這是你專屬的 Firebase 資料庫網址
     const dbUrl = "https://time-capsule-project-58d37-default-rtdb.europe-west1.firebasedatabase.app/capsules.json";
 
-    // 去資料庫抓
+    fetch(dbUrl)
+      .then(response => response.json())
+      .then(data => {
+        const wall = document.getElementById('wall');
+        wall.innerHTML = ''; 
+
+        if(!data) {
+          wall.innerHTML = '<p>目前還沒有任何石板喔！趕快去建立第一塊吧！</p>';
+          return;
+        }
+
+        const capsulesArray = Object.values(data).reverse();
+
+        capsulesArray.forEach(stoneData => {
+          if(!stoneData || (!stoneData.creator && !stoneData.message)) return;
+
+          const stoneDiv = document.createElement('div');
+          stoneDiv.className = 'stone';
+          
+          const creatorName = stoneData.creator ? stoneData.creator : '無名氏長老';
+          const messageText = stoneData.message ? stoneData.message : '沒有留下隻字片語...';
+
+          stoneDiv.innerHTML = `
+            <div class="creator">🗿 發起人：${creatorName}</div>
+            <div class="message">${messageText}</div>
+          `;
+          
+          wall.appendChild(stoneDiv);
+        });
+      })
+      .catch(error => {
+        console.error("發生錯誤啦：", error);
+        document.getElementById('wall').innerHTML = '<p>讀取石板失敗，請確認資料庫連線！</p>';
+      });
+  </script>
+
+</body>
+</html>
