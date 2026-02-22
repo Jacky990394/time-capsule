@@ -24,30 +24,30 @@
     }
 
     /* --- 核心修改區域：石板樣式 --- */
+    /* --- 核心修改區域：石板樣式 --- */
     .stone {
-      /* 設定背景圖片，請確保你的圖片檔名叫做 stone.png */
+      /* 設定背景圖片 */
       background-image: url('stone.png'); 
-      /* 讓圖片拉伸填滿整個框框 */
       background-size: 100% 100%;
       background-repeat: no-repeat;
       background-position: center;
       
-      /* 取消原本的假邊框和圓角，因為圖片本身就有造型了 */
-      border-radius: 0;
+      /* 1. 移除不必要的方形光暈與背景色 */
+      background-color: transparent;
+      box-shadow: none; 
       border: none;
       
-      width: 300px;  /* 稍微加大寬度 */
-      min-height: 180px; /* 設定最小高度，確保圖片不會太扁 */
+      /* 2. 調整石板大小 */
+      width: 320px;  
+      min-height: 200px; 
+      box-sizing: border-box; /* 確保內縮不會撐破圖片比例 */
       
-      /* 增加內部邊距，讓文字不要貼到石板邊緣 */
-      padding: 35px 40px; 
-      
-      /* 保留一點點發光效果，但改柔和一點 */
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5), 0 0 20px rgba(255, 165, 0, 0.4); 
+      /* 3. 調整文字內縮 (上、右、下、左)，把文字推到石頭中央 */
+      padding: 45px 45px 35px 45px; 
       
       text-align: left;
-      /* 增加文字陰影，確保在石頭紋理上看得清楚 */
-      text-shadow: 1px 1px 2px #000000;
+      /* 加強文字陰影，讓字在石頭上更有刻上去的立體感 */
+      text-shadow: 1px 1px 3px #000000, -1px -1px 2px rgba(0,0,0,0.5);
     }
     /* --------------------------- */
 
