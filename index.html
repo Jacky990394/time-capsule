@@ -1,145 +1,173 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>史前記憶石板牆</title>
-  <style>
-    body { 
-      background-color: #1a1a1a; 
-      color: #e0e0e0; 
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-      text-align: center; 
-      padding: 20px 20px 60px 20px; /* 底部多留一點空間 */
-    }
-    h1 { color: #ff9800; text-shadow: 0 0 10px #ff9800; margin-bottom: 10px;}
-    
-    .description {
-      font-size: 1.1em;
-      margin-bottom: 25px;
-      color: #aaaaaa;
-    }
-
-    /* 🚀 全新的「我要刻石板」按鈕樣式 */
-    .carve-btn {
-      display: inline-block;
-      margin-bottom: 40px;
-      padding: 12px 30px;
-      background-color: #ff9800;
-      color: #1a1a1a;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1.2em;
-      border-radius: 30px; /* 圓角按鈕 */
-      box-shadow: 0 4px 15px rgba(255, 152, 0, 0.4);
-      transition: all 0.3s ease; /* 滑鼠移過去的動畫效果 */
-    }
-    .carve-btn:hover {
-      background-color: #ffb74d;
-      transform: scale(1.05); /* 微微放大 */
-      box-shadow: 0 6px 20px rgba(255, 152, 0, 0.6);
-    }
-
-    .stone-container { 
-      display: flex; 
-      flex-wrap: wrap; 
-      justify-content: center; 
-      gap: 40px; 
-    }
-
-    .stone {
-      background-image: url('stone.png'); 
-      background-size: 100% 100%;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-color: transparent;
-      
-      box-shadow: none; 
-      border: none;
-      
-      width: 450px;  
-      min-height: 280px; 
-      max-width: 90vw; 
-      box-sizing: border-box; 
-      
-      padding: 50px; 
-      
-      display: flex;
-      flex-direction: column;
-      justify-content: center; 
-      align-items: center;     
-      
-      text-shadow: 1px 1px 3px #000000, -1px -1px 2px rgba(0,0,0,0.5);
-    }
-
-    .creator { 
-      font-weight: bold; 
-      color: #ffd54f; 
-      margin-bottom: 15px; 
-      font-size: 1.3em; 
-      border-bottom: none;
-      padding-bottom: 0;
-      text-align: center;
-    }
-
-    .message { 
-      font-size: 1.25em; 
-      line-height: 1.6; 
-      color: #ffffff;
-      white-space: pre-wrap;
-      text-align: center; 
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>昱揚工程 - 系統架構總覽</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .architecture-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+        .column {
+            flex: 1;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 2px solid #e2e8f0;
+        }
+        .column h3 {
+            text-align: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        .box {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .box:hover {
+            transform: scale(1.02);
+        }
+        .text-sm {
+            font-size: 0.85em;
+            font-weight: normal;
+            display: block;
+            margin-top: 5px;
+            color: #555;
+        }
+        
+        /* 顏色對應設定 (相同顏色代表有連結連動) */
+        .color-none { background-color: #f1f5f9; color: #475569; border-left: 5px solid #cbd5e1; } /* 首頁 - 無連動 */
+        .color-blue { background-color: #dbeafe; color: #1e3a8a; border-left: 5px solid #3b82f6; } /* 工程實績 */
+        .color-green { background-color: #dcfce7; color: #14532d; border-left: 5px solid #22c55e; } /* AI抓漏分析 */
+        .color-purple { background-color: #f3e8ff; color: #581c87; border-left: 5px solid #a855f7; } /* AI忍者 */
+        .color-orange { background-color: #ffedd5; color: #9a3412; border-left: 5px solid #f97316; } /* 水分子成像 */
+        .color-teal { background-color: #ccfbf1; color: #115e59; border-left: 5px solid #14b8a6; } /* 技術資訊 */
+        
+        /* 照片庫架構樣式 */
+        .media-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 2px solid #e2e8f0;
+        }
+        .media-box-full {
+            background-color: #f8fafc;
+            border: 2px dashed #94a3b8;
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .media-row {
+            display: flex;
+            gap: 20px;
+            justify-content: space-between;
+        }
+        .media-box-small {
+            flex: 1;
+            background-color: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+        }
+    </style>
 </head>
 <body>
 
-  <h1>🔥 部落記憶石板牆 🔥</h1>
-  <p class="description">這裡刻印著我們永不賴皮的約定，一旦刻上，一萬年都不會忘！</p>
-  
-  <a href="https://tally.so/r/A7d5Py" target="_blank" class="carve-btn">✍️ 我也要刻一塊石板</a>
-  
-  <div class="stone-container" id="wall">
-    <p>用力挖掘石板中...</p>
-  </div>
+    <h1>昱揚工程系統架構總覽</h1>
 
-  <script>
-    const dbUrl = "https://time-capsule-project-58d37-default-rtdb.europe-west1.firebasedatabase.app/capsules.json";
+    <h2>網頁架構 (Web Architecture)</h2>
+    <div class="architecture-container">
+        <!-- 欄位 1: WordPress -->
+        <div class="column">
+            <h3>WordPress Page</h3>
+            <div class="box color-none">首頁</div>
+            <div class="box color-blue">工程實績</div>
+            <div class="box color-green">AI 抓漏分析</div>
+            <div class="box color-purple">AI 忍者</div>
+            <div class="box color-orange">水分子成像</div>
+            <div class="box color-teal">技術資訊</div>
+        </div>
 
-    fetch(dbUrl)
-      .then(response => response.json())
-      .then(data => {
-        const wall = document.getElementById('wall');
-        wall.innerHTML = ''; 
+        <!-- 欄位 2: GAS -->
+        <div class="column">
+            <h3>GAS Page</h3>
+            <br>
+            <div class="box color-blue">
+                工程實績總覽
+                <span class="text-sm">(工程實績資料庫)</span>
+            </div>
+            <br>
+            <div class="box color-green">
+                資料分析頁面
+                <span class="text-sm">(昱揚工程_AI 抓漏資料庫日期)</span>
+                <span class="text-sm">(分析引擎: Make)</span>
+            </div>
+        </div>
 
-        if(!data) {
-          wall.innerHTML = '<p>目前還沒有任何石板喔！趕快去建立第一塊吧！</p>';
-          return;
-        }
+        <!-- 欄位 3: Github -->
+        <div class="column">
+            <h3>Github Page</h3>
+            <br><br><br><br><br>
+            <div class="box color-purple">AI 忍者介紹頁面</div>
+            <div class="box color-orange">水分子成像介紹頁面</div>
+            <div class="box color-teal">技術資訊總覽</div>
+        </div>
+    </div>
 
-        const capsulesArray = Object.values(data).reverse();
+    <h2>照片庫架構 (Media Architecture)</h2>
+    <div class="media-container">
+        <div class="media-box-full">
+            <strong>全部照片存雲端硬碟</strong><br>
+            <span class="text-sm">路徑：昱揚 ➔ 公司網站相片資料 (設共享)</span>
+        </div>
+        
+        <div class="media-box-full">
+            <strong>Google Sheet 做分類, 連結, 描述</strong><br>
+            <span class="text-sm">檔名：工程實績資料庫</span><br>
+            <span class="text-sm">路徑：昱揚 ➔ 工程實績資料庫</span>
+        </div>
 
-        capsulesArray.forEach(stoneData => {
-          if(!stoneData || (!stoneData.creator && !stoneData.message)) return;
-
-          const stoneDiv = document.createElement('div');
-          stoneDiv.className = 'stone';
-          
-          const creatorName = stoneData.creator ? stoneData.creator : '無名氏長老';
-          const messageText = stoneData.message ? stoneData.message : '沒有留下隻字片語...';
-
-          stoneDiv.innerHTML = `
-            <div class="creator">發起人：${creatorName}</div>
-            <div class="message">${messageText}</div>
-          `;
-          
-          wall.appendChild(stoneDiv);
-        });
-      })
-      .catch(error => {
-        console.error("發生錯誤啦：", error);
-        document.getElementById('wall').innerHTML = '<p>讀取石板失敗，請確認資料庫連線！</p>';
-      });
-  </script>
+        <div class="media-row">
+            <div class="media-box-small">
+                <strong>WP 工程實績</strong><br>
+                <span class="text-sm">+ 存放 Media</span>
+            </div>
+            <div class="media-box-small">
+                <strong>GAS 工程實績</strong><br>
+                <span class="text-sm">資料進入 Google Sheet<br>能自動放入網頁</span>
+            </div>
+            <div class="media-box-small">
+                <strong>WP 首頁</strong><br>
+                <span class="text-sm">+ 存放 Media</span>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
