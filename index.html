@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>昱揚工程 - 系統架構總覽</title>
     <style>
+        /* 新增平滑捲動與導覽列預留空間 */
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px; 
+        }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f8f9fa;
@@ -14,10 +19,49 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-        h1, h2 {
+        h1 {
             text-align: center;
             color: #2c3e50;
+            margin-bottom: 20px;
         }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-top: 40px;
+            margin-bottom: 30px;
+        }
+        
+        /* 懸浮導覽列樣式 */
+        .nav-container {
+            position: sticky;
+            top: 20px;
+            z-index: 1000;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
+            margin-bottom: 40px;
+        }
+        .nav-btn {
+            display: inline-block;
+            background-color: #334155;
+            color: #fff;
+            padding: 10px 20px;
+            margin: 0 10px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+        }
+        .nav-btn:hover {
+            background-color: #0ea5e9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(14, 165, 233, 0.3);
+        }
+
         .architecture-container {
             display: flex;
             justify-content: space-between;
@@ -58,13 +102,13 @@
             color: #555;
         }
         
-        /* 顏色對應設定 (相同顏色代表有連結連動) */
-        .color-none { background-color: #f1f5f9; color: #475569; border-left: 5px solid #cbd5e1; } /* 首頁 - 無連動 */
-        .color-blue { background-color: #dbeafe; color: #1e3a8a; border-left: 5px solid #3b82f6; } /* 工程實績 */
-        .color-green { background-color: #dcfce7; color: #14532d; border-left: 5px solid #22c55e; } /* AI抓漏分析 */
-        .color-purple { background-color: #f3e8ff; color: #581c87; border-left: 5px solid #a855f7; } /* AI忍者 */
-        .color-orange { background-color: #ffedd5; color: #9a3412; border-left: 5px solid #f97316; } /* 水分子成像 */
-        .color-teal { background-color: #ccfbf1; color: #115e59; border-left: 5px solid #14b8a6; } /* 技術資訊 */
+        /* 顏色對應設定 */
+        .color-none { background-color: #f1f5f9; color: #475569; border-left: 5px solid #cbd5e1; }
+        .color-blue { background-color: #dbeafe; color: #1e3a8a; border-left: 5px solid #3b82f6; }
+        .color-green { background-color: #dcfce7; color: #14532d; border-left: 5px solid #22c55e; }
+        .color-purple { background-color: #f3e8ff; color: #581c87; border-left: 5px solid #a855f7; }
+        .color-orange { background-color: #ffedd5; color: #9a3412; border-left: 5px solid #f97316; }
+        .color-teal { background-color: #ccfbf1; color: #115e59; border-left: 5px solid #14b8a6; }
         
         /* 照片庫架構樣式 */
         .media-container {
@@ -73,6 +117,7 @@
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             border: 2px solid #e2e8f0;
+            margin-bottom: 50px;
         }
         .media-box-full {
             background-color: #f8fafc;
@@ -101,7 +146,14 @@
 
     <h1>昱揚工程系統架構總覽</h1>
 
-    <h2>網頁架構 (Web Architecture)</h2>
+    <!-- 頂部懸浮導覽列 -->
+    <div class="nav-container">
+        <a href="#web-arch" class="nav-btn">🌐 網頁架構</a>
+        <a href="#media-arch" class="nav-btn">📁 照片庫架構</a>
+        <a href="#ai-quote-arch" class="nav-btn">🤖 AI與報價系統</a>
+    </div>
+
+    <h2 id="web-arch">網頁架構 (Web Architecture)</h2>
     <div class="architecture-container">
         <!-- 欄位 1: WordPress -->
         <div class="column">
@@ -140,7 +192,7 @@
         </div>
     </div>
 
-    <h2>照片庫架構 (Media Architecture)</h2>
+    <h2 id="media-arch">照片庫架構 (Media Architecture)</h2>
     <div class="media-container">
         <div class="media-box-full">
             <strong>全部照片存雲端硬碟</strong><br>
@@ -167,6 +219,75 @@
                 <span class="text-sm">+ 存放 Media</span>
             </div>
         </div>
+    </div>
+
+    <!-- 新增：AI與報價系統架構 -->
+    <h2 id="ai-quote-arch">AI 與報價系統架構 (AI & Quotation Architecture)</h2>
+    <div class="architecture-container">
+        
+        <!-- 欄位 1: AI Master 架構 -->
+        <div class="column">
+            <h3 style="color: #581c87;">AI Master 架構</h3>
+            <div class="box color-purple">
+                <strong>檔案</strong>
+                <span class="text-sm">昱揚工程_AI抓漏資料庫日期</span>
+            </div>
+            <div class="box color-purple">
+                <strong>GAS</strong>
+                <span class="text-sm">code.gs (AI抓漏分析填表網頁)</span>
+            </div>
+            <div class="box color-purple">
+                <strong>路徑</strong>
+                <span class="text-sm">雲端硬碟 ➔ AI Master ➔<br>昱揚工程_AI抓漏資料庫日期</span>
+            </div>
+            <div class="box color-purple">
+                <strong>AI 分析引擎</strong>
+                <span class="text-sm">Make (web & Line version)</span>
+            </div>
+            <div class="box color-purple">
+                <strong>資料回傳</strong>
+                <span class="text-sm">資料回傳資料表可檢視AI回覆是否正確</span>
+            </div>
+        </div>
+
+        <!-- 欄位 2: 報價系統評估架構 -->
+        <div class="column">
+            <h3 style="color: #9a3412;">報價系統評估架構</h3>
+            <div class="box color-orange">
+                <strong>檔案</strong>
+                <span class="text-sm">報價系統評估資料表</span>
+            </div>
+            <div class="box color-orange">
+                <strong>GAS</strong>
+                <span class="text-sm">code.gs + Index.html</span>
+            </div>
+            <div class="box color-orange">
+                <strong>路徑</strong>
+                <span class="text-sm">雲端硬碟 ➔ 昱揚報價系統相關檔案 ➔<br>報價系統評估資料表</span>
+            </div>
+        </div>
+
+        <!-- 欄位 3: 報價系統架構 -->
+        <div class="column">
+            <h3 style="color: #1e3a8a;">報價系統架構</h3>
+            <div class="box color-blue">
+                <strong>檔案</strong>
+                <span class="text-sm">昱揚報價資料庫</span>
+            </div>
+            <div class="box color-blue">
+                <strong>GAS</strong>
+                <span class="text-sm">code.gs + Index.html + Quote.html</span>
+            </div>
+            <div class="box color-blue">
+                <strong>路徑</strong>
+                <span class="text-sm">雲端硬碟 ➔ 昱揚 ➔<br>昱揚報價資料庫</span>
+            </div>
+            <div class="box color-blue">
+                <strong>輸出</strong>
+                <span class="text-sm">生成報價單</span>
+            </div>
+        </div>
+        
     </div>
 
 </body>
